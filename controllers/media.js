@@ -1,13 +1,7 @@
 'use strict'
 
 const Media = require('../models/media');
-var cloudinary = require('cloudinary').v2
-
-cloudinary.config({ 
-  cloud_name: 'mayconxhh', 
-  api_key: '427942691184476', 
-  api_secret: 'vbEzyC89Hx9KPIWjhgAER_z__4c'
-});
+const { UploadMedia } = require('../helpers/UploadMedia');
 
 function GetMedia(req, res, next){
   Media.find((err, medias)=>{
@@ -42,18 +36,26 @@ function GetMedia(req, res, next){
 }
 
 function NewMedia(req, res) {
-  // console.log(req)
-  // let params = req.body;
-  console.log(res.videoapp)
+  const file = req.files.media;
 
-  return res
-          .status(200)
+  UploadMedia(file)
+    .then(function(result){
+      return res
+              .status(200)
+              .send({
+                success:true,
+                casa:'kekeke',
+                files: result
+              })
+    }, function(err){
+      console.log(err)
+      return res
+          .status(500)
           .send({
-            success:true,
-            files: res.videoapp
+            success:false,
+            error:err
           })
-
-  
+    })
 
 }
 

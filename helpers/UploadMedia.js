@@ -3,25 +3,26 @@ var path = require('path');
 var fs = require('fs');
 const ThumbnailGenerator = require('video-thumbnail-generator').default;
 
-cloudinary.config({ 
-  cloud_name: 'mayconxhh', 
-  api_key: '427942691184476', 
-  api_secret: 'vbEzyC89Hx9KPIWjhgAER_z__4c' 
-});
+// function UploadMedia (req, res, next){
+function UploadMedia (file){
 
-exports.UploadMedia = function(req, res, next){
-  const file = req.files.media;
+  console.log(file.size)
   // console.log(req.files.media)
+  return new Promise (function(resolve, reject){
 
-  console.log(req.body)
-  console.log(file)
+      // console.log(file)
 
-  Upload(file).then(result => {
-    // console.log('------------------------------------')
-    // console.log(result)
-    // console.log('------------------------------------')
-    res.videoapp = result;
-    next();
+    if(file.size > 15000000 ){
+      reject({
+        message: 'Archivo demasiado pesado'
+      });
+    } else {
+      
+      Upload(file).then(result => {
+        resolve(result);
+      })
+    }
+
   })
 }
 
@@ -43,8 +44,7 @@ async function Upload(file){
       if(err){
         console.log(err)
       }
-      // console.log('image');
-      // console.log(result)
+
       thumbnailIm = result;
 
       let route = path.resolve(__dirname);
@@ -84,4 +84,8 @@ async function Upload(file){
     throw err;
   }
 
+}
+
+module.exports = {
+  UploadMedia
 }

@@ -6,24 +6,25 @@ var express = require('express');
 // var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const bodyParser = require('body-parser');
+var config = require('./config')
 
 var MediaRoute = require('./routes/media');
 // var usersRouter = require('./routes/users');
 
 var app = express();
 
-// mongoose.connect('mongodb+srv://root:root@cluster0-bljag.mongodb.net/videoapp?retryWrites=true&w=majority', {
-//     promiseLibrary: require('bluebird'),
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//     useCreateIndex: true
-// }).then(() =>  console.log('connection successful'))
-//   .catch((err) => console.error(err));
+mongoose.connect(config.mongo_lab, {
+    promiseLibrary: require('bluebird'),
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+}).then(() =>  console.log('connection successful'))
+  .catch((err) => console.error(err));
 
 cloudinary.config({ 
-  cloud_name: 'mayconxhh', 
-  api_key: '427942691184476', 
-  api_secret: 'vbEzyC89Hx9KPIWjhgAER_z__4c'
+  cloud_name: config.cloudinary.cloud_name, 
+  api_key: config.cloudinary.api_key, 
+  api_secret: config.cloudinary.api_secret
 });
 
 app.use(logger('dev'));

@@ -5,15 +5,15 @@ const {
   GetMedia,
   NewMedia
 } = require('../controllers/media');
-const { UploadMedia } = require('../helpers/UploadMedia');
 const multipart = require('connect-multiparty');
 const multipartMiddleware = multipart();
+const { ensureAuth } = require('../middlewares/authenticated');
 
 const api = express.Router();
 
 api
-  .get('/media', GetMedia)
-  .post('/media', multipartMiddleware, NewMedia);
+  .get('/medias', GetMedia)
+  .post('/media', multipartMiddleware, ensureAuth, NewMedia);
   // .post('/media', NewMedia);
 
 module.exports = api;

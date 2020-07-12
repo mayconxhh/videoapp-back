@@ -12,7 +12,7 @@ function UploadMedia (file){
 
       // console.log(file)
 
-    if(file.size > 15000000 ){
+    if(file.size > 30000000 ){
       reject({
         message: 'Archivo demasiado pesado'
       });

@@ -4,9 +4,48 @@ const Media = require('../models/media');
 const { UploadMedia } = require('../helpers/UploadMedia');
 
 function GetMedia(req, res, next){
+
+  let media_id = req.params.id;
+  console.log(media_id)
+
+  Media
+    .findById( media_id )
+    .select('name description date author  secure_thumbnail secure_url likes secure_url')
+    .exec((err, media)=>{
+      if (err) {
+
+        return res
+                .status(500)
+                .send({
+                  success:false,
+                  message: 'Ocurrió un error al encontrar video.',
+                  err
+                });
+
+      }
+
+      if (!media) {
+        return res
+                .status(404)
+                .send({
+                  success:false,
+                  message: 'No se completó la operación.'
+                });
+      }
+
+      return res
+                .status(200)
+                .send({
+                  success:true,
+                  media,
+                });
+    })
+}
+
+function GetMedias(req, res, next){
   Media
     .find()
-    .select('name description date author thumbnail secure_thumbnail')
+    .select('name description date author secure_thumbnail likes')
     .exec((err, medias)=>{
       if (err) {
 
@@ -94,5 +133,6 @@ function NewMedia(req, res) {
 
 module.exports = {
   GetMedia,
+  GetMedias,
   NewMedia
 }

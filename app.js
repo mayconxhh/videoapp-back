@@ -1,17 +1,17 @@
-var createError = require('http-errors');
-var mongoose = require('mongoose');
-var cloudinary = require('cloudinary').v2
-var express = require('express');
-// var path = require('path');
-// var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const mongoose = require('mongoose');
+const cloudinary = require('cloudinary').v2
+const express = require('express');
+// const path = require('path');
+// const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
-var config = require('./config')
+const config = require('./config')
 
-var MediaRoute = require('./routes/media');
-// var usersRouter = require('./routes/users');
+const MediaRoute = require('./routes/media');
+const UserRouter = require('./routes/user');
 
-var app = express();
+const app = express();
 
 mongoose.connect(config.mongo_lab, {
     promiseLibrary: require('bluebird'),
@@ -53,6 +53,7 @@ app.use((req, res, next) => {
 //           });
 // })
 app.use('/api', MediaRoute);
+app.use('/api', UserRouter);
 
 
 // catch 404 and forward to error handler

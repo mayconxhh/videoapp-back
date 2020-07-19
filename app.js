@@ -1,12 +1,10 @@
-if(!process.env.NODE_ENV){
+if(process.env.NODE_ENV !== 'production'){
   require('dotenv').config();
 }
 const createError = require('http-errors');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2
 const express = require('express');
-// const path = require('path');
-// const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 

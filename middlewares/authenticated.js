@@ -1,8 +1,8 @@
 const jwt = require('jwt-simple');
 const moment = require('moment');
-const config = require('../config');
 
 exports.ensureAuth = function(req, res, next){
+
 	if (!req.headers.authorization) {
 		return res
 							.status(403)
@@ -14,7 +14,8 @@ exports.ensureAuth = function(req, res, next){
 	let tk = req.headers.authorization.replace(/['"]+/g, '');
 
 	try{
-		var payload = jwt.decode(tk, config.secret);
+	
+		var payload = jwt.decode(tk, process.env.SECRET);
 
 		if (payload.exp <= moment().unix()) {
 

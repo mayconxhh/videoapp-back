@@ -36,7 +36,7 @@ function SaveUser( req, res ){
 
 				if (users && users.length >=1 ) {
 					return res
-										.status(200)
+										.status(500)
 										.send({
 											success: false,
 											message: 'El nombre de usuario o email ya existe!'
@@ -114,30 +114,18 @@ function LoginUser(req, res){
 
 				if ( validPassword ) {
 
-					// if (params.getToken) {
+					let token = jwt.createToken(user);
+					user.password = undefined;
+					user.__v = undefined;
 
-						let token = jwt.createToken(user);
-						user.password = undefined;
-						user.__v = undefined;
-
-						res
-							.status(200)
-							.send({
-								success: true,
-								message: 'Usuario autenticado!',
-								token: token,
-								user: user
-							});
-
-					// } else {
-					// 	res
-					// 		.status(200)
-					// 		.send({
-					// 			success: true,
-					// 			message: 'Usuario autenticado!',
-					// 			user: user
-					// 		});
-					// }
+					res
+						.status(200)
+						.send({
+							success: true,
+							message: 'Usuario autenticado!',
+							token: token,
+							user: user
+						});
 
 				} else {
 
@@ -145,8 +133,7 @@ function LoginUser(req, res){
 										.status(404)
 										.send({
 											success: false,
-											message: 'No se ha podido iniciar sesión.',
-											err: err
+											message: 'El correo electrónico o la contraseña no son correctos.'
 										});
 				}
 			} else {
@@ -155,8 +142,7 @@ function LoginUser(req, res){
 									.status(404)
 									.send({
 										success: false,
-										message: 'No se ha podido iniciar sesión.',
-										err: err
+										message: 'La cuenta ingresada no existe.'
 									});
 			}
 

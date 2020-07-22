@@ -16,5 +16,5 @@ exports.createToken = function(user){
 		exp: moment().add(17, 'days').unix()
 	}
 
-	return jwt.encode(payload, process.env.NODE_ENV);
+	return jwt.encode(payload, process.env.SECRET);
 }

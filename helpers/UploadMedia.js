@@ -12,7 +12,7 @@ function UploadMedia (file){
 
       // console.log(file)
 
-    if(file.size > 30000000 ){
+    if(file.size > 60000000 ){
       reject({
         message: 'Archivo demasiado pesado'
       });
@@ -65,7 +65,7 @@ async function Upload(file){
     let videoUp = await cloudinary.uploader.upload(file.path, {
       resource_type: "video", 
       public_id: `/${uniqueFilename}`,
-      chunk_size: 600000000,                                  
+      chunk_size: 60000000,                               
       eager_async: true,
       folder: '/videoapp',
       tags: 'video'

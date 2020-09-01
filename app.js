@@ -2,6 +2,7 @@ if(process.env.NODE_ENV !== 'production'){
   require('dotenv').config();
 }
 const createError = require('http-errors');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary').v2
 const express = require('express');
@@ -32,14 +33,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // CORS
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+app.use(cors())
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+//   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
 
-  next();
-});
+//   next();
+// });
 
 app.use('/api', MediaRoute);
 app.use('/api', UserRouter);
